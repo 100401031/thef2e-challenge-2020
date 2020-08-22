@@ -27,15 +27,23 @@ block content
         .playlist-cat-wrapper
           .playlist-cat
             .cat-title
-              |播放清單
+              |播放列表
             .cat-list
               ul
                 li(v-for="(item,key) in playList" @click="setCurrentPlaylist(key)")
-                  |{{item.title}}
+                  span.title(@dblclick="playCurrentSong(item.song[0])") {{item.title}}
+                  span(v-if="item==currentPlayList").mark
+                    img( src="./image/MusicPlayer/playerUI/tra.svg" )
           .playlist-cat
-            .cat-title(@click="setCurrentPlaylist('favorite')")
-              |我的最愛
+            .cat-title
+              |你的音樂庫
             .cat-list
+              ul
+                  li(@click="setCurrentPlaylist('favorite')")
+                    span.title(@dblclick="playCurrentSong(favoritePlaylist.song[0])")
+                      |我的最愛
+                    span(v-if="favoritePlaylist==currentPlayList").mark
+                      img( src="./image/MusicPlayer/playerUI/tra.svg" )
         .playlist
           .list-title {{currentPlayList.title}}
           .collapse-btn(@click="handleCollapse")
@@ -86,7 +94,7 @@ block content
               span.info-section
                 .top-wrapper
                   .title {{currentSong?currentSong.title:''}}
-                  button.favorite-button(@click="addToFavorite(currentSong)")
+                  button.favorite-button(@click="addToFavorite(currentSong)"  v-if="currentSong")
                     img( src="./image/MusicPlayer/playerUI/heart-empty.svg" v-if="!isCurrentPlayFavorite")
                     img( src="./image/MusicPlayer/playerUI/heart-fill.svg" v-else)
                 .artist {{currentSong?currentSong.artist:''}}
@@ -120,5 +128,5 @@ block script
   else
     script(src="https://cdn.jsdelivr.net/npm/vue@2.6.11")
   
-  script(src="./js/jquery.js")
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js")
   script(src="./js/musicPlayer.js")

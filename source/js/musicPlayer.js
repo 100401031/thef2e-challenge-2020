@@ -45,6 +45,10 @@ $(function () {
       randomMode: false,
       randomPreviousSong: [],
       favoriteList: [],
+      favoritePlaylist: {
+        title: '我的最愛',
+        song: []
+      },
       playList: {
         // '#pl-1': {
         //   title: '周杰倫金曲',
@@ -179,11 +183,7 @@ $(function () {
       },
       setCurrentPlaylist(key) {
         if (key === 'favorite') {
-          const favoritePlaylist = {
-            title: '我的最愛',
-            song: this.favoriteList
-          };
-          this.currentPlayList = favoritePlaylist;
+          this.currentPlayList = this.favoritePlaylist;
           return;
         }
         this.currentPlayList = this.playList[key];
@@ -259,7 +259,7 @@ $(function () {
         this.randomPreviousSong = [];
       },
       setCdCoverImg(imageName) {
-        const style = `url('../image/MusicPlayer/albumCover/${imageName}')`;
+        const style = `url('./image/MusicPlayer/albumCover/${imageName}')`;
         document.getElementById('cd').style.backgroundImage = style;
       },
       setPlayerTimer() {
@@ -322,7 +322,8 @@ $(function () {
     created() {
       const localFavoriteList = JSON.parse(localStorage.getItem('favoriteList')) || [];
       this.favoriteList = localFavoriteList;
-      $.getJSON('../json/MusicPlayer/playList.json', data => {
+      this.favoritePlaylist.song = this.favoriteList;
+      $.getJSON('./json/MusicPlayer/playlist.json', data => {
         this.playList = data;
         this.setCurrentPlaylist(Object.keys(this.playList)[0]);
       });

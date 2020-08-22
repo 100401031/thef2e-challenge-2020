@@ -106,9 +106,13 @@ function watchFiles() {
   watch('dist/css/*.css').on('change', browserSync.reload);
   watch('dist/js/*.js').on('change', browserSync.reload);
 }
+function deploy() {
+  return src('./dist/**/*').pipe($.ghPages());
+}
 
 // 專案完成時的導出任務
 exports.build = series(clean, pug, compileSass, babel, image, vendorJS, json);
+exports.deploy = deploy;
 exports.default = parallel(
   clean,
   pug,

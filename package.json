@@ -6,6 +6,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=develop gulp",
     "build": "cross-env NODE_ENV=production gulp build",
+    "deploy": "gulp deploy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "William",
@@ -19,6 +20,7 @@
     "del": "^5.1.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
+    "gulp-gh-pages": "^0.5.4",
     "gulp-if": "^3.0.0",
     "gulp-imagemin": "^7.1.0",
     "gulp-load-plugins": "^2.0.4",
