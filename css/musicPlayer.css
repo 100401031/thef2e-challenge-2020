@@ -17,7 +17,8 @@ ul {
 button {
   background-color: transparent;
   border: none;
-  outline: transparent; }
+  outline: transparent;
+  padding: 0 !important; }
 
 #yt-iframe-player {
   position: absolute;
