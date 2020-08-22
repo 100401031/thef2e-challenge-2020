@@ -112,6 +112,7 @@ function deploy() {
 
 // 專案完成時的導出任務
 exports.build = series(clean, pug, compileSass, babel, image, vendorJS, json);
+exports.buildData = series(image, json);
 exports.deploy = deploy;
 exports.default = parallel(
   clean,
