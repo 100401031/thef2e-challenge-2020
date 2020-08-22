@@ -28,16 +28,20 @@
           <div class="search"></div>
           <div class="playlist-cat-wrapper">
             <div class="playlist-cat">
-              <div class="cat-title">播放清單</div>
+              <div class="cat-title">播放列表</div>
               <div class="cat-list">
                 <ul>
-                  <li v-for="(item,key) in playList" @click="setCurrentPlaylist(key)">{{item.title}}</li>
+                  <li v-for="(item,key) in playList" @click="setCurrentPlaylist(key)"><span class="title" @dblclick="playCurrentSong(item.song[0])">{{item.title}}</span><span class="mark" v-if="item==currentPlayList"><img src="./image/MusicPlayer/playerUI/tra.svg"></span></li>
                 </ul>
               </div>
             </div>
             <div class="playlist-cat">
-              <div class="cat-title" @click="setCurrentPlaylist('favorite')">我的最愛</div>
-              <div class="cat-list"></div>
+              <div class="cat-title">你的音樂庫</div>
+              <div class="cat-list">
+                <ul>
+                  <li @click="setCurrentPlaylist('favorite')"><span class="title" @dblclick="playCurrentSong(favoritePlaylist.song[0])">我的最愛</span><span class="mark" v-if="favoritePlaylist==currentPlayList"><img src="./image/MusicPlayer/playerUI/tra.svg"></span></li>
+                </ul>
+              </div>
             </div>
           </div>
           <div class="playlist">

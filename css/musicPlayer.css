@@ -22,7 +22,8 @@ button {
 
 #yt-iframe-player {
   position: absolute;
-  top: 200px; }
+  top: -100%;
+  left: -100%; }
 
 .player-controls-button {
   position: relative;
@@ -87,15 +88,32 @@ button {
     .playlist-cat .cat-list ul {
       margin: 0; }
       .playlist-cat .cat-list ul li {
+        position: relative;
         width: 100%;
         margin: 7px 0;
         font-size: 14px;
         line-height: 20px;
-        cursor: pointer;
-        white-space: nowrap;
-        -o-text-overflow: ellipsis;
-           text-overflow: ellipsis;
-        overflow: hidden; }
+        cursor: pointer; }
+        .playlist-cat .cat-list ul li .title {
+          width: 100%;
+          white-space: nowrap;
+          -o-text-overflow: ellipsis;
+             text-overflow: ellipsis;
+          overflow: hidden; }
+    .playlist-cat .cat-list .mark {
+      position: absolute;
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      -o-object-fit: contain;
+         object-fit: contain;
+      left: 0; }
+      .playlist-cat .cat-list .mark {
+        transform: rotateZ(90deg) translate(25%, 100%);
+        -webkit-transform: rotateZ(90deg) translate(25%, 100%);
+        -moz-transform: rotateZ(90deg) translate(25%, 100%);
+        -ms-transform: rotateZ(90deg) translate(25%, 100%);
+        -o-transform: rotateZ(90deg) translate(25%, 100%); }
 
 .outer-wrapper {
   display: -webkit-box;
@@ -109,7 +127,8 @@ button {
     display: -ms-inline-flexbox;
     display: inline-flex;
     width: 487px;
-    height: calc(100vh - 60px);
+    height: calc(100vh - 80px);
+    min-height: 660px;
     padding-top: 20px;
     padding-left: 14px;
     background-color: #fff;
