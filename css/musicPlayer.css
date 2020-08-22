@@ -477,6 +477,8 @@ button {
         -o-object-fit: contain;
            object-fit: contain;
         border: #000 3px solid;
+        background-repeat: no-repeat;
+        background-size: cover;
         border-radius: 100%;
         -webkit-border-radius: 100%;
         -moz-border-radius: 100%;
