@@ -666,11 +666,12 @@ button {
               display: -ms-flexbox;
               display: flex; }
               .outer-wrapper .player-space .player .player-controls .middle-wrapper .info-section .top-wrapper .favorite-button {
-                width: 36px;
-                height: 36px;
-                min-width: 36px;
-                min-height: 36px;
-                padding: 0 !important; }
+                width: 28px;
+                height: 28px;
+                min-width: 28px;
+                min-height: 28px;
+                margin-left: 6px;
+                padding: 4px 0 0 !important; }
                 .outer-wrapper .player-space .player .player-controls .middle-wrapper .info-section .top-wrapper .favorite-button img {
                   width: 100%;
                   height: 100%; }

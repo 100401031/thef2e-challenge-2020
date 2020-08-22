@@ -72,7 +72,7 @@
               <div class="middle-wrapper"><span class="info-section">
                   <div class="top-wrapper">
                     <div class="title">{{currentSong?currentSong.title:''}}</div>
-                    <button class="favorite-button" @click="addToFavorite(currentSong)"><img src="./image/MusicPlayer/playerUI/heart-empty.svg" v-if="!isCurrentPlayFavorite"><img src="./image/MusicPlayer/playerUI/heart-fill.svg" v-else></button>
+                    <button class="favorite-button" @click="addToFavorite(currentSong)" v-if="currentSong"><img src="./image/MusicPlayer/playerUI/heart-empty.svg" v-if="!isCurrentPlayFavorite"><img src="./image/MusicPlayer/playerUI/heart-fill.svg" v-else></button>
                   </div>
                   <div class="artist">{{currentSong?currentSong.artist:''}}</div></span><span class="volume-section">
                   <div class="play-mode-wrapper">
