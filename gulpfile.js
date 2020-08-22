@@ -104,8 +104,7 @@ function deploy() {
   return src('./dist/**/*').pipe($.ghPages());
 }
 
-// 專案完成時的導出任務
-exports.build = series(clean, pug, compileSass, babel, image, vendorJS, json);
-exports.buildData = series(image, json);
-exports.deploy = deploy;
-exports.default = parallel(clean, pug, compileSass, babel, image, json, serve, watchFiles);
+exports.build = series(clean, pug, compileSass, babel, image, vendorJS, json); //導出專案
+exports.buildData = series(image, json); //導出資料(方便編輯資料)
+exports.deploy = deploy; //自動部署至Github page
+exports.default = parallel(clean, pug, compileSass, babel, image, json, serve, watchFiles); //開發時執行任務
