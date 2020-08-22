@@ -6,12 +6,7 @@ var del = require('del');
 var autoprefixer = require('autoprefixer');
 $.sass.compiler = require('node-sass');
 
-function defaultTask(cb) {
-  // place code for your default task here
-  cb();
-}
-
-// 使用BrowserSync建立本地測試用web serve
+// 使用BrowserSync建立本地測試用web server
 function serve() {
   browserSync.init({
     server: {
@@ -22,6 +17,7 @@ function serve() {
   });
 }
 
+//清空dist資料夾
 function clean() {
   return del(['dist/**', '!dist']);
 }
@@ -32,8 +28,7 @@ function pug() {
       $.pug({
         pretty: true,
         data: {
-          // Feed the templates
-          env: process.env.NODE_ENV
+          env: process.env.NODE_ENV //將環境變數傳入pug文件，以便於於文件內判斷Vue執行環境
         }
       })
     )
@@ -45,8 +40,8 @@ function compileSass() {
     .pipe($.plumber())
     .pipe($.sourcemaps.init())
     .pipe($.sass().on('error', $.sass.logError))
-    .pipe($.postcss([autoprefixer()])) // 將編譯完成的 CSS 做 PostCSS 處理
-    .pipe($.sourcemaps.write('./')) // 生成 sourcemaps 文件 (.map)
+    .pipe($.postcss([autoprefixer()])) //PostCSS 加入前綴
+    .pipe($.sourcemaps.write('./')) //建立 sourcemaps (產生.map文件)
     .pipe(dest('./dist/css'));
 }
 
@@ -78,8 +73,7 @@ function image() {
     .pipe(
       $.if(
         process.env.NODE_ENV === 'production',
-        //minify image
-        $.imagemin()
+        $.imagemin() //壓縮圖片
       )
     )
     .pipe(dest('./dist/image'));
@@ -114,14 +108,4 @@ function deploy() {
 exports.build = series(clean, pug, compileSass, babel, image, vendorJS, json);
 exports.buildData = series(image, json);
 exports.deploy = deploy;
-exports.default = parallel(
-  clean,
-  pug,
-  compileSass,
-  babel,
-  image,
-  vendorJS,
-  json,
-  serve,
-  watchFiles
-);
+exports.default = parallel(clean, pug, compileSass, babel, image, json, serve, watchFiles);
