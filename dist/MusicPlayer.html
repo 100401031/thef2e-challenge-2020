@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"><!-- Search Engine -->
+<meta name="description" content="Music Player - 前端修練精神時光屋2nd Week-3">
+<meta name="image" content="">
+<!-- Schema.org for Google -->
+<meta itemprop="name" content="Music Player - 前端修練精神時光屋2nd Week-3">
+<meta itemprop="description" content="Music Player - 前端修練精神時光屋2nd Week-3">
+<meta itemprop="image" content="">
+<!-- Open Graph general (Facebook, Pinterest & Google+) -->
+<meta property="og:title" content="Music Player - 前端修練精神時光屋2nd Week-3">
+<meta property="og:description" content="Music Player - 前端修練精神時光屋2nd Week-3">
+<meta property="og:site_name" content="Music Player - 前端修練精神時光屋2nd Week-3">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:type" content="website">
+    <title>Music Player - 前端修練精神時光屋2nd Week-3</title>
+    <link rel="stylesheet" href="./css/normalize.css">
+    <link rel="stylesheet" href="./css/musicPlayer.css">
+  </head>
+  <body>
+    <div id="app">
+      <div id="yt-iframe-player"></div>
+      <div class="outer-wrapper">
+        <div class="sidebar" :class="{'hide':sidebarHide}">
+          <div class="search"></div>
+          <div class="playlist-cat-wrapper">
+            <div class="playlist-cat">
+              <div class="cat-title">播放清單</div>
+              <div class="cat-list">
+                <ul>
+                  <li v-for="(item,key) in playList" @click="setCurrentPlaylist(key)">{{item.title}}</li>
+                </ul>
+              </div>
+            </div>
+            <div class="playlist-cat">
+              <div class="cat-title" @click="setCurrentPlaylist('favorite')">我的最愛</div>
+              <div class="cat-list"></div>
+            </div>
+          </div>
+          <div class="playlist">
+            <div class="list-title">{{currentPlayList.title}}</div>
+            <div class="collapse-btn" @click="handleCollapse"><span>List</span><span class="line"></span><span class="line"></span><span class="line"></span></div>
+            <div class="song-wrapper">
+              <ul>
+                <li v-for="item in currentPlayListSong" @dblclick="playCurrentSong(item)">
+                  <div class="song-block">
+                    <div class="left-block">
+                      <div class="top-wrapper"><span class="title">{{item.title}}</span><span class="favorite-button" @click="addToFavorite(item)"><img src="./image/MusicPlayer/playerUI/heart-empty.svg" v-if="!isListSongFavorite(item)"><img src="./image/MusicPlayer/playerUI/heart-fill.svg" v-else></span><span class="play-button" @click="item == currentSong?handlePlayBtn():playCurrentSong(item)" :class="{playing:item == currentSong}" @mouseenter="listPauseHover=item" @mouseleave="listPauseHover=null"><img src="./image/MusicPlayer/playerUI/sound.svg" v-if="item == currentSong&amp;&amp;listPauseHover!=item&amp;&amp;!isPause"><img src="./image/MusicPlayer/playerUI/pause2.svg" v-else-if="item == currentSong&amp;&amp;listPauseHover==item&amp;&amp;!isPause"><img src="./image/MusicPlayer/playerUI/play2.svg" v-else></span></div>
+                      <div class="artist">{{item.artist}}</div>
+                    </div>
+                    <div class="right-block">
+                      <div class="album">{{item.album}}</div>
+                      <div class="duration">{{item.duration|timeFormat}}</div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="player-space">
+          <div class="player" id="player">
+            <div class="cd" :class="{rotating:cdRotate,pause:isPause,hide:!currentSong}" id="cd"><span class="center-hole"></span><span class="rotating-line" :class="{rotating:cdRotate,pause:isPause}"><span class="line-group-one"><img src="./image/MusicPlayer/playerUI/line.svg"></span><span class="line-group-two"><img class="line-one" src="./image/MusicPlayer/playerUI/line2.svg"><img class="line-two" src="./image/MusicPlayer/playerUI/line3.svg"></span></span></div>
+            <div class="player-controls-top-right">
+              <button class="player-controls-button"><span class="button-image-wrapper" @click="playPreviousSong"><img src="./image/MusicPlayer/playerUI/next.svg"></span></button>
+              <button class="player-controls-button" @click="playNextSong"><span class="button-image-wrapper"><img src="./image/MusicPlayer/playerUI/next.svg"></span></button>
+            </div>
+            <div class="player-controls">
+              <div class="middle-wrapper"><span class="info-section">
+                  <div class="top-wrapper">
+                    <div class="title">{{currentSong?currentSong.title:''}}</div>
+                    <button class="favorite-button" @click="addToFavorite(currentSong)"><img src="./image/MusicPlayer/playerUI/heart-empty.svg" v-if="!isCurrentPlayFavorite"><img src="./image/MusicPlayer/playerUI/heart-fill.svg" v-else></button>
+                  </div>
+                  <div class="artist">{{currentSong?currentSong.artist:''}}</div></span><span class="volume-section">
+                  <div class="play-mode-wrapper">
+                    <button class="player-controls-button" @click="toggleRandomMode" :class="{'random-mode':randomMode}"><span class="button-image-wrapper"><img src="./image/MusicPlayer/playerUI/mode-random.svg"></span></button>
+                  </div>
+                  <div class="volume-bar-wrapper">
+                    <input class="slide-bar" type="range" min="0" :max="100" v-model="volume" @input="setVolume">
+                    <button class="volume-button" @click="muteVolume"><img src="./image/MusicPlayer/playerUI/sound.svg"><span class="mute" v-if="volume&lt;1"></span></button>
+                  </div></span>
+                <div class="needle-wrapper">
+                  <button class="play-button" @click="handlePlayBtn" :class="{disable:!currentSong}"><img src="./image/MusicPlayer/playerUI/play.svg" v-if="isPause||isEnded||isCued||!currentSong"><img src="./image/MusicPlayer/playerUI/pause.svg" v-else></button><img class="needle" :class="{playing:!isPause&amp;&amp;currentSong}" src="./image/MusicPlayer/playerUI/player.svg">
+                </div>
+              </div>
+              <div class="progress-bar-wrapper"><span class="currentTime">{{currentTime|timeFormat}}</span>
+                <div class="slide-bar-wrapper">
+                  <input class="slide-bar" type="range" v-model="currentTime" min="0" :max="durationTime" @input="changeCurrentTime" :disabled="durationTime==0"><span class="loading-progress" :style="{width: loadingPercentage*100 +'%'}"></span><span class="play-progress" :style="{width: playPercentage*100 +'%'}"></span>
+                </div><span class="durationTime" v-if="durationTime&gt;0">{{durationTime|timeFormat}}</span><span class="durationTime" v-else>{{''}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="./js/jquery.js"></script>
+    <script src="./js/musicPlayer.js"></script>
+  </body>
+</html>
