@@ -15,6 +15,10 @@
   user-select: none;
   /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */ }
 
+ul {
+  list-style-type: none;
+  padding: 0; }
+
 .main_container {
   display: grid;
   height: 100%;
@@ -53,7 +57,8 @@
         font-size: 22px;
         line-height: 24px; }
   .sidebar .file_list_section {
-    overflow: auto; }
+    overflow: auto;
+    padding: 0px 45px; }
   .sidebar .upload_section {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -63,7 +68,8 @@
             justify-content: center;
     -webkit-box-align: center;
         -ms-flex-align: center;
-            align-items: center; }
+            align-items: center;
+    position: relative; }
     .sidebar .upload_section .upload_button {
       display: -webkit-box;
       display: -ms-flexbox;
@@ -96,6 +102,10 @@
           fill: #4cb5f6; }
         .sidebar .upload_section .upload_button svg .arrow {
           fill: #4cb5f6; }
+    .sidebar .upload_section .upload_dropdown {
+      position: absolute;
+      background-color: #fff;
+      top: 100%; }
 
 .main_page {
   display: grid;
