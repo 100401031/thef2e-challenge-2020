@@ -1,0 +1,111 @@
+$secondary_font_color: #656565;
+@mixin centerFlex() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#app {
+  height: 100vh;
+}
+* {
+  font-family: 'Noto Sans TC', arial, 'sans-serif';
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}
+.main_container {
+  display: grid;
+  height: 100%;
+  grid-template-columns: 256px auto;
+}
+
+.sidebar {
+  display: grid;
+  height: 100%;
+  grid-template-rows: 128px 64px 1fr 64px 64px;
+  background-color: $primary;
+  .logo_section {
+    display: grid;
+    align-items: center;
+    .logo_wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      svg {
+        width: 24px;
+        margin-right: 4px;
+        & {
+          transform: translateY(1px);
+        }
+      }
+      .logo_word {
+        color: #fff;
+        font-weight: bold;
+        font-size: 22px;
+        line-height: 24px;
+      }
+    }
+  }
+  .file_list_section {
+    overflow: auto;
+  }
+  .upload_section {
+    @include centerFlex();
+    .upload_button {
+      @include centerFlex();
+      font-size: 16px;
+      font-weight: 700;
+      color: $primary;
+      background-color: #fff;
+      border: none;
+      width: 180px;
+      height: 50px;
+      outline: none;
+      border-radius: 25px;
+      box-shadow: 0px 3px 6px rgba($color: #000000, $alpha: 0.15);
+      svg {
+        width: 24px;
+        margin-right: 6px;
+        & {
+          transform: translateY(-2px);
+        }
+        .line {
+          fill: $primary;
+        }
+        .arrow {
+          fill: $primary;
+        }
+      }
+    }
+  }
+}
+.main_page {
+  display: grid;
+  grid-template-rows: 81px auto;
+  .navbar {
+  }
+  .dir_section {
+    overflow: auto;
+    .dir_title {
+    }
+    .file_table {
+    }
+  }
+}
+
+.context-menu-list {
+  border-radius: 6px;
+  border: 1px #e6e6e6 solid;
+  box-shadow: 0px 3px 6px rgba($color: #000000, $alpha: 0.15);
+  .context-menu-item {
+    background-color: transparent;
+    padding: 8px 18px;
+    color: $secondary_font_color;
+  }
+  .context-menu-hover {
+    background-color: #f2f2f2;
+  }
+}

@@ -32,6 +32,7 @@ function pug() {
         }
       })
     )
+    .pipe($.injectSvg({ base: '/source' }))
     .pipe(dest('./dist/'))
     .pipe(browserSync.stream());
 }
@@ -86,6 +87,7 @@ function vendorJS() {
     .pipe($.if(process.env.NODE_ENV === 'production', $.uglify()))
     .pipe(dest('./dist/js'));
 }
+
 //監聽檔案變更(監聽路徑, 任務名稱)
 function watchFiles() {
   //檔案變更時自動執行任務

@@ -33,7 +33,7 @@ block content
                 li(v-for="(item,key) in playList" @click="setCurrentPlaylist(key)")
                   span.title(@dblclick="playCurrentSong(item.song[0])") {{item.title}}
                   span(v-if="item==currentPlayList").mark
-                    img( src="./image/MusicPlayer/playerUI/tra.svg" )
+                    img( src="/image/MusicPlayer/playerUI/tra.svg" data-skip-inject-svg )
           .playlist-cat
             .cat-title
               |你的音樂庫
@@ -43,7 +43,7 @@ block content
                     span.title(@dblclick="playCurrentSong(favoritePlaylist.song[0])")
                       |我的最愛
                     span(v-if="favoritePlaylist==currentPlayList").mark
-                      img( src="./image/MusicPlayer/playerUI/tra.svg" )
+                      img( src="/image/MusicPlayer/playerUI/tra.svg" data-skip-inject-svg )
         .playlist
           .list-title {{currentPlayList.title}}
           .collapse-btn(@click="handleCollapse")
@@ -60,12 +60,12 @@ block content
                     .top-wrapper
                       span.title {{item.title}}
                       span.favorite-button(@click="addToFavorite(item)")
-                        img( src="./image/MusicPlayer/playerUI/heart-empty.svg" v-if="!isListSongFavorite(item)")
-                        img( src="./image/MusicPlayer/playerUI/heart-fill.svg" v-else)
+                        img( src="/image/MusicPlayer/playerUI/heart-empty.svg" data-skip-inject-svg v-if="!isListSongFavorite(item)")
+                        img( src="/image/MusicPlayer/playerUI/heart-fill.svg" data-skip-inject-svg v-else)
                       span.play-button(@click="item == currentSong?handlePlayBtn():playCurrentSong(item)" :class="{playing:item == currentSong}" @mouseenter="listPauseHover=item" @mouseleave="listPauseHover=null")
-                        img(src="./image/MusicPlayer/playerUI/sound.svg" v-if="item == currentSong&&listPauseHover!=item&&!isPause" )
-                        img(src="./image/MusicPlayer/playerUI/pause2.svg" v-else-if="item == currentSong&&listPauseHover==item&&!isPause" )
-                        img(src="./image/MusicPlayer/playerUI/play2.svg" v-else)
+                        img(src="/image/MusicPlayer/playerUI/sound.svg" data-skip-inject-svg v-if="item == currentSong&&listPauseHover!=item&&!isPause" )
+                        img(src="/image/MusicPlayer/playerUI/pause2.svg" data-skip-inject-svg v-else-if="item == currentSong&&listPauseHover==item&&!isPause" )
+                        img(src="/image/MusicPlayer/playerUI/play2.svg" data-skip-inject-svg v-else)
                     .artist {{item.artist}}
                     
                   .right-block
@@ -78,41 +78,41 @@ block content
             span.center-hole
             span.rotating-line(:class="{rotating:cdRotate,pause:isPause}")
               span.line-group-one
-                img(src="./image/MusicPlayer/playerUI/line.svg")
+                img(src="/image/MusicPlayer/playerUI/line.svg" data-skip-inject-svg)
               span.line-group-two
-                img(src="./image/MusicPlayer/playerUI/line2.svg").line-one
-                img(src="./image/MusicPlayer/playerUI/line3.svg").line-two
+                img(src="/image/MusicPlayer/playerUI/line2.svg" data-skip-inject-svg).line-one
+                img(src="/image/MusicPlayer/playerUI/line3.svg" data-skip-inject-svg).line-two
           .player-controls-top-right
             button.player-controls-button
               span.button-image-wrapper(@click="playPreviousSong")
-                img(src="./image/MusicPlayer/playerUI/next.svg" )
+                img(src="/image/MusicPlayer/playerUI/next.svg" data-skip-inject-svg )
             button.player-controls-button(@click="playNextSong")
               span.button-image-wrapper
-                img(src="./image/MusicPlayer/playerUI/next.svg" )
+                img(src="/image/MusicPlayer/playerUI/next.svg" data-skip-inject-svg )
           .player-controls
             .middle-wrapper
               span.info-section
                 .top-wrapper
                   .title {{currentSong?currentSong.title:''}}
                   button.favorite-button(@click="addToFavorite(currentSong)"  v-if="currentSong")
-                    img( src="./image/MusicPlayer/playerUI/heart-empty.svg" v-if="!isCurrentPlayFavorite")
-                    img( src="./image/MusicPlayer/playerUI/heart-fill.svg" v-else)
+                    img( src="/image/MusicPlayer/playerUI/heart-empty.svg" data-skip-inject-svg v-if="!isCurrentPlayFavorite")
+                    img( src="/image/MusicPlayer/playerUI/heart-fill.svg" data-skip-inject-svg v-else)
                 .artist {{currentSong?currentSong.artist:''}}
               span.volume-section
                 .play-mode-wrapper
                   button.player-controls-button(@click="toggleRandomMode" :class="{'random-mode':randomMode}")
                     span.button-image-wrapper
-                      img(src="./image/MusicPlayer/playerUI/mode-random.svg" )
+                      img(src="/image/MusicPlayer/playerUI/mode-random.svg" data-skip-inject-svg )
                 .volume-bar-wrapper
                   input(type="range" min="0" :max="100" v-model="volume" @input="setVolume").slide-bar
                   button.volume-button(@click="muteVolume")
-                    img(src="./image/MusicPlayer/playerUI/sound.svg" )
+                    img(src="/image/MusicPlayer/playerUI/sound.svg" data-skip-inject-svg )
                     span.mute(v-if="volume<1")
               .needle-wrapper
                 button.play-button(@click="handlePlayBtn" :class="{disable:!currentSong}")
-                  img(src="./image/MusicPlayer/playerUI/play.svg" v-if="isPause||isEnded||isCued||!currentSong")
-                  img(src="./image/MusicPlayer/playerUI/pause.svg" v-else)
-                img(:class="{playing:!isPause&&currentSong}" src="./image/MusicPlayer/playerUI/player.svg").needle
+                  img(src="/image/MusicPlayer/playerUI/play.svg" data-skip-inject-svg v-if="isPause||isEnded||isCued||!currentSong")
+                  img(src="/image/MusicPlayer/playerUI/pause.svg" data-skip-inject-svg v-else)
+                img(:class="{playing:!isPause&&currentSong}" src="/image/MusicPlayer/playerUI/player.svg" data-skip-inject-svg).needle
             .progress-bar-wrapper
               span.currentTime {{currentTime|timeFormat}}
               .slide-bar-wrapper

@@ -1,0 +1,67 @@
+extends ./layout/layout.pug
+block socialMeta
+  <!-- Search Engine -->
+  <meta name="description" content="Cloud Drive - 前端修練精神時光屋2nd Week 8">
+  <meta name="image" content="">
+  <!-- Schema.org for Google -->
+  <meta itemprop="name" content="Cloud Drive - 前端修練精神時光屋2nd Week 8">
+  <meta itemprop="description" content="Cloud Drive - 前端修練精神時光屋2nd Week 8">
+  <meta itemprop="image" content="">
+  <!-- Open Graph general (Facebook, Pinterest & Google+) -->
+  <meta property="og:title" content="Cloud Drive - 前端修練精神時光屋2nd Week 8">
+  <meta property="og:description" content="Cloud Drive - 前端修練精神時光屋2nd Week 8">
+  <meta property="og:site_name" content="Cloud Drive - 前端修練精神時光屋2nd Week 8">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:type" content="website">
+block css
+  link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css")
+  link(rel="stylesheet", href="./css/cloudDrive.css")
+block pageTitle
+  title Cloud Drive - 前端修練精神時光屋2nd Week 8
+
+block content
+  #app
+    .main_container
+      .sidebar
+        .logo_section
+          span.logo_wrapper
+            img(src='/image/cloudDrive/cloud.svg')
+            span.logo_word MCloud.
+        .upload_section
+          button.upload_button
+            img(src='/image/cloudDrive/upload.svg')
+            span 上傳檔案
+        .file_list_section
+          ul
+            each val,index in ['我的雲端硬碟', '已加星號','檔案共享', '垃圾桶']
+              if (index===0)
+                li
+                  .icon
+                  span= val
+              else
+                li
+                  .icon
+                  span= val
+        .user_section
+        .drive_usage
+      .main_page
+        .navbar
+        .dir_section
+          .dir_title
+          table.file_table
+            tr
+              th
+            tr
+
+          
+
+      
+block script
+  if env === 'develop'
+    script(src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js")
+  else
+    script(src="https://cdn.jsdelivr.net/npm/vue@2.6.11")
+  
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js")
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js")
+  script(src="./js/cloudDrive.js")
