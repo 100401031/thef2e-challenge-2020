@@ -56,7 +56,8 @@ button {
             box-shadow: 6px 6px 1px #00000033;
     -o-object-fit: contain;
        object-fit: contain; }
-    .player-controls-button .button-image-wrapper img {
+    .player-controls-button .button-image-wrapper img,
+    .player-controls-button .button-image-wrapper svg {
       margin: auto; }
     .player-controls-button .button-image-wrapper {
       transition: all 0.05s ease;
@@ -261,7 +262,8 @@ button {
                 -webkit-box-sizing: border-box;
                         box-sizing: border-box;
                 margin-left: 6px; }
-                .outer-wrapper .sidebar .playlist .song-wrapper .song-block .left-block .top-wrapper .favorite-button img {
+                .outer-wrapper .sidebar .playlist .song-wrapper .song-block .left-block .top-wrapper .favorite-button img,
+                .outer-wrapper .sidebar .playlist .song-wrapper .song-block .left-block .top-wrapper .favorite-button svg {
                   margin: auto;
                   width: 60%;
                   height: 60%; }
@@ -303,7 +305,8 @@ button {
                   -moz-border-radius: 48px;
                   -ms-border-radius: 48px;
                   -o-border-radius: 48px; }
-                .outer-wrapper .sidebar .playlist .song-wrapper .song-block .left-block .top-wrapper .play-button img {
+                .outer-wrapper .sidebar .playlist .song-wrapper .song-block .left-block .top-wrapper .play-button img,
+                .outer-wrapper .sidebar .playlist .song-wrapper .song-block .left-block .top-wrapper .play-button svg {
                   margin: auto;
                   width: 50%;
                   height: 50%; }
@@ -694,7 +697,8 @@ button {
                 min-height: 28px;
                 margin-left: 6px;
                 padding: 4px 0 0 !important; }
-                .outer-wrapper .player-space .player .player-controls .middle-wrapper .info-section .top-wrapper .favorite-button img {
+                .outer-wrapper .player-space .player .player-controls .middle-wrapper .info-section .top-wrapper .favorite-button img,
+                .outer-wrapper .player-space .player .player-controls .middle-wrapper .info-section .top-wrapper .favorite-button svg {
                   width: 100%;
                   height: 100%; }
                 .outer-wrapper .player-space .player .player-controls .middle-wrapper .info-section .top-wrapper .favorite-button {
@@ -743,7 +747,8 @@ button {
               height: 50%; }
               .outer-wrapper .player-space .player .player-controls .middle-wrapper .volume-section .play-mode-wrapper .player-controls-button {
                 float: right; }
-                .outer-wrapper .player-space .player .player-controls .middle-wrapper .volume-section .play-mode-wrapper .player-controls-button .button-image-wrapper img {
+                .outer-wrapper .player-space .player .player-controls .middle-wrapper .volume-section .play-mode-wrapper .player-controls-button .button-image-wrapper img,
+                .outer-wrapper .player-space .player .player-controls .middle-wrapper .volume-section .play-mode-wrapper .player-controls-button .button-image-wrapper svg {
                   width: 60%;
                   height: 60%; }
                 .outer-wrapper .player-space .player .player-controls .middle-wrapper .volume-section .play-mode-wrapper .player-controls-button.random-mode .button-image-wrapper {
@@ -765,7 +770,8 @@ button {
                 min-width: 36px;
                 min-height: 36px;
                 margin: auto; }
-                .outer-wrapper .player-space .player .player-controls .middle-wrapper .volume-section .volume-bar-wrapper .volume-button img {
+                .outer-wrapper .player-space .player .player-controls .middle-wrapper .volume-section .volume-bar-wrapper .volume-button img,
+                .outer-wrapper .player-space .player .player-controls .middle-wrapper .volume-section .volume-bar-wrapper .volume-button svg {
                   width: 100%;
                   height: 100%; }
                 .outer-wrapper .player-space .player .player-controls .middle-wrapper .volume-section .volume-bar-wrapper .volume-button .mute {
@@ -854,7 +860,8 @@ button {
               .outer-wrapper .player-space .player .player-controls .middle-wrapper .needle-wrapper .play-button.disable {
                 opacity: 0.25;
                 cursor: default; }
-              .outer-wrapper .player-space .player .player-controls .middle-wrapper .needle-wrapper .play-button img {
+              .outer-wrapper .player-space .player .player-controls .middle-wrapper .needle-wrapper .play-button img,
+              .outer-wrapper .player-space .player .player-controls .middle-wrapper .needle-wrapper .play-button svg {
                 width: 45px;
                 height: 45px;
                 margin: auto; }
@@ -899,12 +906,14 @@ button {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column; }
-  .player-controls-top-right .player-controls-button .button-image-wrapper img {
+  .player-controls-top-right .player-controls-button .button-image-wrapper img,
+  .player-controls-top-right .player-controls-button .button-image-wrapper svg {
     width: 50%;
     height: 50%; }
   .player-controls-top-right .player-controls-button:last-of-type {
     margin-top: 20px; }
-    .player-controls-top-right .player-controls-button:last-of-type .button-image-wrapper img {
+    .player-controls-top-right .player-controls-button:last-of-type .button-image-wrapper img,
+    .player-controls-top-right .player-controls-button:last-of-type .button-image-wrapper svg {
       transform: rotateY(180deg);
       -webkit-transform: rotateY(180deg);
       -moz-transform: rotateY(180deg);

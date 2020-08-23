@@ -1,0 +1,118 @@
+#app {
+  height: 100vh; }
+
+* {
+  font-family: 'Noto Sans TC', arial, 'sans-serif';
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Old versions of Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */ }
+
+.main_container {
+  display: grid;
+  height: 100%;
+  grid-template-columns: 256px auto; }
+
+.sidebar {
+  display: grid;
+  height: 100%;
+  grid-template-rows: 128px 64px 1fr 64px 64px;
+  background-color: #4cb5f6; }
+  .sidebar .logo_section {
+    display: grid;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center; }
+    .sidebar .logo_section .logo_wrapper {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      -webkit-box-pack: center;
+          -ms-flex-pack: center;
+              justify-content: center; }
+      .sidebar .logo_section .logo_wrapper svg {
+        width: 24px;
+        margin-right: 4px; }
+        .sidebar .logo_section .logo_wrapper svg {
+          -webkit-transform: translateY(1px);
+              -ms-transform: translateY(1px);
+                  transform: translateY(1px); }
+      .sidebar .logo_section .logo_wrapper .logo_word {
+        color: #fff;
+        font-weight: bold;
+        font-size: 22px;
+        line-height: 24px; }
+  .sidebar .file_list_section {
+    overflow: auto; }
+  .sidebar .upload_section {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center; }
+    .sidebar .upload_section .upload_button {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      font-size: 16px;
+      font-weight: 700;
+      color: #4cb5f6;
+      background-color: #fff;
+      border: none;
+      width: 180px;
+      height: 50px;
+      outline: none;
+      border-radius: 25px;
+      -webkit-box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.15);
+              box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.15); }
+      .sidebar .upload_section .upload_button svg {
+        width: 24px;
+        margin-right: 6px; }
+        .sidebar .upload_section .upload_button svg {
+          -webkit-transform: translateY(-2px);
+              -ms-transform: translateY(-2px);
+                  transform: translateY(-2px); }
+        .sidebar .upload_section .upload_button svg .line {
+          fill: #4cb5f6; }
+        .sidebar .upload_section .upload_button svg .arrow {
+          fill: #4cb5f6; }
+
+.main_page {
+  display: grid;
+  grid-template-rows: 81px auto; }
+  .main_page .dir_section {
+    overflow: auto; }
+
+.context-menu-list {
+  border-radius: 6px;
+  border: 1px #e6e6e6 solid;
+  -webkit-box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.15);
+          box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.15); }
+  .context-menu-list .context-menu-item {
+    background-color: transparent;
+    padding: 8px 18px;
+    color: #656565; }
+  .context-menu-list .context-menu-hover {
+    background-color: #f2f2f2; }
+
+/*# sourceMappingURL=cloudDrive.css.map */
