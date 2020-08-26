@@ -1,6 +1,7 @@
 'use strict';
 const { src, dest, series, watch, parallel } = require('gulp');
 const $ = require('gulp-load-plugins')();
+const webpack = require('webpack-stream');
 var browserSync = require('browser-sync').create();
 var del = require('del');
 var autoprefixer = require('autoprefixer');
@@ -69,6 +70,52 @@ function babel() {
     .pipe(dest('./dist/js'))
     .pipe(browserSync.stream());
 }
+
+function webpackBabel() {
+  return src('./source/js/**/*.js')
+    .pipe($.plumber())
+    .pipe($.sourcemaps.init())
+    .pipe(
+      webpack({
+        mode: 'production',
+        entry: {
+          cloudDrive: './source/js/cloudDrive.js',
+          musicPlayer: './source/js/musicPlayer.js'
+        },
+        output: {
+          filename: '[name].js'
+        },
+        devtool: 'source-map',
+        module: {
+          rules: [
+            {
+              test: /\.m?js$/,
+              exclude: /(node_modules|bower_components)/,
+              use: {
+                loader: 'babel-loader',
+                options: {
+                  presets: ['@babel/env']
+                }
+              }
+            }
+          ]
+        }
+      })
+    )
+    .pipe(
+      $.if(
+        process.env.NODE_ENV === 'production',
+        $.uglify({
+          compress: {
+            drop_console: true
+          }
+        })
+      )
+    )
+    .pipe(dest('./dist/js'))
+    .pipe(browserSync.stream());
+}
+
 function image() {
   return src('./source/image/**/*.{png,gif,jpg,svg}')
     .pipe(
@@ -93,7 +140,7 @@ function watchFiles() {
   //檔案變更時自動執行任務
   watch('./source/**/*.pug', pug);
   watch('./source/scss/**/*.scss', compileSass);
-  watch('./source/js/**/*.js', babel);
+  watch('./source/js/**/*.js', webpackBabel);
   watch('./source/image/**/*.{png,gif,jpg,svg}', image);
   watch('./source/json/**/*.json', json);
 
@@ -106,7 +153,7 @@ function deploy() {
   return src('./dist/**/*').pipe($.ghPages());
 }
 
-exports.build = series(clean, pug, compileSass, babel, image, vendorJS, json); //導出專案
+exports.build = series(clean, pug, compileSass, webpackBabel, image, vendorJS, json); //導出專案
 exports.buildData = series(image, json); //導出資料(方便編輯資料)
 exports.deploy = deploy; //自動部署至Github page
-exports.default = parallel(clean, pug, compileSass, babel, image, json, serve, watchFiles); //開發時執行任務
+exports.default = parallel(clean, pug, compileSass, webpackBabel, image, json, serve, watchFiles); //開發時執行任務
