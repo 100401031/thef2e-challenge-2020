@@ -16,6 +16,7 @@
     "@babel/core": "^7.11.1",
     "@babel/preset-env": "^7.11.0",
     "autoprefixer": "^9.8.6",
+    "babel-loader": "^8.1.0",
     "browser-sync": "^2.26.12",
     "cross-env": "^7.0.2",
     "del": "^5.1.0",
@@ -33,7 +34,9 @@
     "gulp-sass": "^4.1.0",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-uglify": "^3.0.2",
-    "node-sass": "^4.14.1"
+    "node-sass": "^4.14.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-stream": "^5.2.1"
   },
   "dependencies": {
     "jquery": "^3.5.1"
