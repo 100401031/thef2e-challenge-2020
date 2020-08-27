@@ -318,6 +318,7 @@ vm = new Vue({
               path: this.currentFolder.path + '/' + this.currentFolder.id
             };
             targetFolder.fileList.push(newFile);
+            this.saveToLocal(data, fileId, fileName);
             this.storage_usage = JSON.stringify(localStorage).length * 0.77;
             //save to local
             this.saveToLocalStorage();
