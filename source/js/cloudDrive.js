@@ -20,7 +20,7 @@ vm = new Vue({
         fileList: [
           {
             id: '#1-f',
-            name: '預設資料夾',
+            name: 'Hello World!',
             editable: true,
             isStar: false,
             modifiedTime: 1598047432044,
@@ -315,10 +315,9 @@ vm = new Vue({
               size: receiveFile.size,
               ownerId: 'me',
               fileType: this.checkFileType(receiveFile.type),
-              dataURL: data
+              path: this.currentFolder.path + '/' + this.currentFolder.id
             };
             targetFolder.fileList.push(newFile);
-            this.saveToLocal(data, fileId, fileName);
             this.storage_usage = JSON.stringify(localStorage).length * 0.77;
             //save to local
             this.saveToLocalStorage();
@@ -392,7 +391,7 @@ vm = new Vue({
       if (this.currentSection == 'trash') return;
       file.isInTrash = true;
       this.dataStorage.trash.fileList.push(file);
-      const delFile = this.currentFolder.fileList.find(item => (item.id = file.id));
+      const delFile = this.currentFolder.fileList.find(item => item.id == file.id);
       const delFileIndex = this.currentFolder.fileList.indexOf(delFile);
       this.currentFolder.fileList.splice(delFileIndex, 1);
       //save to local
@@ -402,6 +401,8 @@ vm = new Vue({
     deleteFile(file = this.rightClickItem) {
       const delFileIndex = this.dataStorage.trash.fileList.indexOf(file);
       this.dataStorage.trash.fileList.splice(delFileIndex, 1);
+      localStorage.removeItem(file.id);
+      this.storage_usage = JSON.stringify(localStorage).length * 0.77;
       //save to local
       this.saveToLocalTrash();
     },
@@ -505,7 +506,7 @@ vm = new Vue({
     const getStoreData = JSON.parse(localStorage.getItem('myStorage')) || [
       {
         id: '#1-f',
-        name: '預設資料夾',
+        name: 'Hello World!',
         editable: true,
         isStar: false,
         modifiedTime: 1598047432044,
@@ -517,9 +518,7 @@ vm = new Vue({
         path: '/root'
       }
     ];
-    console.log(getStoreData);
     const getTrashData = JSON.parse(localStorage.getItem('myTrash')) || [];
-    console.log(getTrashData);
     this.dataStorage.rootFolder.fileList = getStoreData;
     this.dataStorage.trash.fileList = getTrashData;
   },

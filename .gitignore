@@ -2,3 +2,7 @@ node_modules/
 dist
 .publish
 .env
+.DS_Store
+.gitignore
+.vscode/
+.vscode/launch.json
