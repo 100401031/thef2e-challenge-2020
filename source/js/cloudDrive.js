@@ -347,6 +347,8 @@ vm = new Vue({
       }
     },
     checkFileType(fileType) {
+      console.log(fileType);
+      if (fileType.includes('mp4')) return 'mp4';
       if (fileType.includes('image')) return 'image';
       if (
         fileType.includes('msword') ||
