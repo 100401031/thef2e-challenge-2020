@@ -4,8 +4,8 @@ tag.src = 'https://www.youtube.com/iframe_api';
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-var player;
-function onYouTubeIframeAPIReady() {
+var player = null;
+window.onYouTubeIframeAPIReady = function onYouTubeIframeAPIReady() {
   player = new YT.Player('yt-iframe-player', {
     height: '0',
     width: '0',
@@ -16,7 +16,7 @@ function onYouTubeIframeAPIReady() {
       onStateChange: vm.onPlayerStateChange
     }
   });
-}
+};
 
 var vm;
 $(function () {
