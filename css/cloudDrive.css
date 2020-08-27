@@ -380,12 +380,12 @@ button {
         .main_page .dir_section .file_table .header_col:nth-of-type(2) {
           max-width: 90px;
           min-width: 90px; }
-        .main_page .dir_section .file_table .header_col:nth-of-type(3), .main_page .dir_section .file_table .header_col:nth-of-type(4) {
+        .main_page .dir_section .file_table .header_col:nth-of-type(3) {
           max-width: 45px;
           min-width: 45px; }
         .main_page .dir_section .file_table .header_col:last-of-type {
-          max-width: 15px;
-          min-width: 15px; }
+          max-width: 30px;
+          min-width: 30px; }
       .main_page .dir_section .file_table .bottom_line {
         padding-top: 10px;
         border-top: 1px #f2f3f4 solid; }
@@ -416,12 +416,12 @@ button {
           .main_page .dir_section .file_table .body_row .body_col:nth-of-type(2) {
             max-width: 90px;
             min-width: 90px; }
-          .main_page .dir_section .file_table .body_row .body_col:nth-of-type(3), .main_page .dir_section .file_table .body_row .body_col:nth-of-type(4) {
+          .main_page .dir_section .file_table .body_row .body_col:nth-of-type(3) {
             max-width: 45px;
             min-width: 45px; }
           .main_page .dir_section .file_table .body_row .body_col:last-of-type {
-            max-width: 15px;
-            min-width: 15px; }
+            max-width: 30px;
+            min-width: 30px; }
           .main_page .dir_section .file_table .body_row .body_col .type_icon {
             margin: 4px 24px 0px 6px; }
         .main_page .dir_section .file_table .body_row .star {
