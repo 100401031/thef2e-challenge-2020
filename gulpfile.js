@@ -117,7 +117,7 @@ function webpackBabel() {
 }
 
 function image() {
-  return src('./source/image/**/*.{png,gif,jpg,svg}')
+  return src('./source/image/**/*.{png,gif,jpg,svg,ico}')
     .pipe(
       $.if(
         process.env.NODE_ENV === 'production',
@@ -153,7 +153,7 @@ function deploy() {
   return src('./dist/**/*').pipe($.ghPages());
 }
 
-exports.build = series(clean, pug, compileSass, webpackBabel, image, vendorJS, json); //導出專案
+exports.build = series(clean, pug, compileSass, babel, image, vendorJS, json); //導出專案
 exports.buildData = series(image, json); //導出資料(方便編輯資料)
 exports.deploy = deploy; //自動部署至Github page
-exports.default = parallel(clean, pug, compileSass, webpackBabel, image, json, serve, watchFiles); //開發時執行任務
+exports.default = parallel(clean, pug, compileSass, babel, image, json, serve, watchFiles); //開發時執行任務
