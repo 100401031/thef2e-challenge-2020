@@ -18,12 +18,29 @@ function serve() {
   });
 }
 
+//設定已完成不用編譯的子專案
+const buildAll = false; //是否要全部重新編譯
+//設定要忽略專案
+const ignoreProject = buildAll ? [] : ['cloudDrive', 'musicPlayer'];
+const ignore = (src, template) => {
+  if (!ignoreProject) return;
+  ignoreProject.forEach(item => {
+    src.push(`${template.replace('(ignoreName)', item)}`);
+  });
+  return src;
+};
+
 //清空dist資料夾
 function clean() {
-  return del(['dist/**', '!dist']);
+  const srcArray = ['dist/**', '!dist'];
+  ignore(srcArray, '!dist/(ignoreName)');
+  return del(srcArray);
 }
+
 function pug() {
-  return src(['source/*/*.pug', '!source/view/*.pug'])
+  const srcArray = ['source/*/*.pug', '!source/layout/*.pug'];
+  ignore(srcArray, '!source/(ignoreName)/*.pug');
+  return src(srcArray)
     .pipe($.plumber())
     .pipe(
       $.pug({
@@ -44,7 +61,9 @@ function pug() {
     .pipe(browserSync.stream());
 }
 function compileSass() {
-  return src('source/*/scss/**/*.scss')
+  const srcArray = ['source/*/scss/**/*.scss'];
+  ignore(srcArray, '!source/(ignoreName)/scss/**/*.scss');
+  return src(srcArray)
     .pipe($.plumber())
     .pipe($.sourcemaps.init())
     .pipe($.sass().on('error', $.sass.logError))
@@ -59,7 +78,9 @@ function compileSass() {
 }
 
 function babel() {
-  return src('./source/*/js/**/*.js')
+  const srcArray = ['source/*/js/**/*.js'];
+  ignore(srcArray, '!source/(ignoreName)/js/**/*.js');
+  return src(srcArray)
     .pipe($.plumber())
     .pipe($.sourcemaps.init())
     .pipe(
@@ -83,7 +104,9 @@ function babel() {
 }
 
 function webpackBabel() {
-  return src('./source/*/js/**/*.js')
+  const srcArray = ['source/*/js/**/*.js'];
+  ignore(srcArray, '!source/(ignoreName)/js/**/*.js');
+  return src(srcArray)
     .pipe($.plumber())
     .pipe($.sourcemaps.init())
     .pipe(
@@ -128,7 +151,9 @@ function webpackBabel() {
 }
 
 function image() {
-  return src('./source/*/image/**/*.{png,gif,jpg,svg,ico}')
+  const srcArray = ['./source/*/image/**/*.{png,gif,jpg,svg,ico}'];
+  ignore(srcArray, '!source/(ignoreName)/image/**/*.{png,gif,jpg,svg,ico}');
+  return src(srcArray)
     .pipe(
       $.if(
         process.env.NODE_ENV === 'production',
@@ -138,7 +163,9 @@ function image() {
     .pipe(dest('./dist'));
 }
 function json() {
-  return src('./source/*/json/**/*.json').pipe(dest('./dist'));
+  const srcArray = ['./source/*/json/**/*.json'];
+  ignore(srcArray, '!source/(ignoreName)/json/**/*.json');
+  return src(srcArray).pipe(dest('./dist'));
 }
 // function vendorJS() {
 //   return src('./node_modules/jquery/dist/jquery.js')
