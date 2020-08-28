@@ -448,7 +448,6 @@ vm = new Vue({
       });
     },
     fileContextMenu(item) {
-      //將右鍵點擊物件紀錄
       this.rightClickItem = item;
     },
     addStar(item = this.rightClickItem) {
