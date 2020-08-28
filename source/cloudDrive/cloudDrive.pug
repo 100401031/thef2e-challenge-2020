@@ -1,4 +1,4 @@
-extends ./layout/layout.pug
+extends ../view/layout/layout.pug
 block socialMeta
   <!-- Search Engine -->
   <meta name="description" content="Cloud Drive - 前端修練精神時光屋2nd Week 8">
@@ -14,7 +14,7 @@ block socialMeta
   <meta property="og:locale" content="zh_TW">
   <meta property="og:type" content="website">
 block css
-  link(rel="shortcut icon", href="./image/cloudDrive/favicon/cloud.ico", type="image/x-icon")
+  link(rel="shortcut icon", href="./image/favicon/cloud.ico", type="image/x-icon")
   link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css")
   link( rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous")
   link(rel="stylesheet", href="./css/cloudDrive.css")
@@ -28,11 +28,11 @@ block content
       aside.sidebar
         .logo_section
           span.logo_wrapper(@click="currentFolder=dataStorage.rootFolder")
-            img(src='/image/cloudDrive/cloud.svg')
+            img(src='/cloudDrive/image/cloud.svg')
             span.logo_word MCloud.
         .upload_section
           button.upload_button(@click="sidebarDropdownVisible=!sidebarDropdownVisible" bind-el="sidebarDropdown")
-            img(src='/image/cloudDrive/upload.svg')
+            img(src='/cloudDrive/image/upload.svg')
             span 上傳檔案
           transition(name="dropdown")
             .upload_dropdown(v-click-outside="handleClickOutside" el-name="sidebarDropdown" v-if="sidebarDropdownVisible")
@@ -60,24 +60,24 @@ block content
           ul
             li.list_item(@click="currentFolder=dataStorage.rootFolder" :class="{selected:currentSection=='root'}")
               span.icon
-                img(src='/image/cloudDrive/folder.svg')
+                img(src='/cloudDrive/image/folder.svg')
               span 我的雲端硬碟
             li.list_item(@click="starPage" :class="{selected:currentSection=='star'}")
               span.icon
-                img(src='/image/cloudDrive/star.svg')
+                img(src='/cloudDrive/image/star.svg')
               span 已加星號
             li.list_item(:class="{selected:currentSection=='share'}" disabled)
               span.icon
-                img(src='/image/cloudDrive/sharing_content.svg')
+                img(src='/cloudDrive/image/sharing_content.svg')
               span 檔案共享
             li.list_item(@click="currentFolder=dataStorage.trash" :class="{selected:currentSection=='trash'}")
               span.icon
-                img(src='/image/cloudDrive/trash.svg')
+                img(src='/cloudDrive/image/trash.svg')
               span 垃圾桶 {{dataStorage.trash.fileList.length?`(${dataStorage.trash.fileList.length})`:''}}
         .user_section
           .user_pic
             .img_wrapper
-              img(src='./image/cloudDrive/user.jpg')
+              img(src='./image/user.jpg')
           .user_info
             .user_name Jennifer
             .user_role User
@@ -91,7 +91,7 @@ block content
         nav.navbar
           .search_bar
             button.search_button(disabled)
-              img(src='/image/cloudDrive/search.svg')
+              img(src='/cloudDrive/image/search.svg')
             input(placeholder="搜尋您的檔案" v-model="searchInput").search_input
             .search_filter
         section.dir_section
@@ -121,7 +121,7 @@ block content
                 tr.body_row.file_row(v-for="(item,key) in displayFileList" :key="key" @dblclick="handleListItemDblClick(item)" :class="{draggedBy:item==dragoverItem,isDragging:item==isDraggingItem,doc_type:item.fileType!='folder',folder_type:item.fileType=='folder',file_contextmenu:currentFolder.editable}" @dragover.prevent="item.fileType=='folder'?dragOver(item):false"  @dragleave.prevent="dragLeave" @drop.stop.prevent="item.fileType=='folder'?drop($event,item):false" draggable="true" @contextmenu.prevent="fileContextMenu(item)" @dragstart ="dragStart($event,item)" @dragend ="dragEnd($event,item)" :draggable="currentFolder.editable")
                   td.body_col
                     span.type_icon
-                      img(:src='`./image/cloudDrive/file_type_icon/${item.fileType}_icon.png`'  draggable="false")
+                      img(:src='`./image/file_type_icon/${item.fileType}_icon.png`'  draggable="false")
                     span {{item.name}}
                     span.star(@click="addStar(item)")
                       i.fas.fa-star(v-if="item.isStar")

@@ -259,7 +259,7 @@ $(function () {
         this.randomPreviousSong = [];
       },
       setCdCoverImg(imageName) {
-        const style = `url('./image/MusicPlayer/albumCover/${imageName}')`;
+        const style = `url('./image/albumCover/${imageName}')`;
         document.getElementById('cd').style.backgroundImage = style;
       },
       setPlayerTimer() {
@@ -323,7 +323,7 @@ $(function () {
       const localFavoriteList = JSON.parse(localStorage.getItem('favoriteList')) || [];
       this.favoriteList = localFavoriteList;
       this.favoritePlaylist.song = this.favoriteList;
-      $.getJSON('./json/MusicPlayer/playlist.json', data => {
+      $.getJSON('./json/playlist.json', data => {
         this.playList = data;
         this.setCurrentPlaylist(Object.keys(this.playList)[0]);
       });

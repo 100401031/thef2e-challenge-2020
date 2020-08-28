@@ -23,7 +23,7 @@ function clean() {
   return del(['dist/**', '!dist']);
 }
 function pug() {
-  return src(['source/view/*.pug'])
+  return src(['source/*/*.pug', '!source/view/*.pug'])
     .pipe($.plumber())
     .pipe(
       $.pug({
@@ -34,21 +34,32 @@ function pug() {
       })
     )
     .pipe($.injectSvg({ base: '/source' }))
+    .pipe(
+      $.rename(file => {
+        file.dirname = file.basename + '/';
+        file.basename = 'index';
+      })
+    )
     .pipe(dest('./dist/'))
     .pipe(browserSync.stream());
 }
 function compileSass() {
-  return src('source/scss/**/*.scss')
+  return src('source/*/scss/**/*.scss')
     .pipe($.plumber())
     .pipe($.sourcemaps.init())
     .pipe($.sass().on('error', $.sass.logError))
     .pipe($.postcss([autoprefixer()])) //PostCSS 加入前綴
     .pipe($.sourcemaps.write('./')) //建立 sourcemaps (產生.map文件)
-    .pipe(dest('./dist/css'));
+    .pipe(
+      $.rename(file => {
+        file.dirname = file.dirname.replace('scss', 'css');
+      })
+    )
+    .pipe(dest('./dist'));
 }
 
 function babel() {
-  return src('./source/js/**/*.js')
+  return src('./source/*/js/**/*.js')
     .pipe($.plumber())
     .pipe($.sourcemaps.init())
     .pipe(
@@ -67,12 +78,12 @@ function babel() {
       )
     )
     .pipe($.sourcemaps.write('.'))
-    .pipe(dest('./dist/js'))
+    .pipe(dest('./dist'))
     .pipe(browserSync.stream());
 }
 
 function webpackBabel() {
-  return src('./source/js/**/*.js')
+  return src('./source/*/js/**/*.js')
     .pipe($.plumber())
     .pipe($.sourcemaps.init())
     .pipe(
@@ -112,28 +123,28 @@ function webpackBabel() {
         })
       )
     )
-    .pipe(dest('./dist/js'))
+    .pipe(dest('./dist'))
     .pipe(browserSync.stream());
 }
 
 function image() {
-  return src('./source/image/**/*.{png,gif,jpg,svg,ico}')
+  return src('./source/*/image/**/*.{png,gif,jpg,svg,ico}')
     .pipe(
       $.if(
         process.env.NODE_ENV === 'production',
         $.imagemin() //壓縮圖片
       )
     )
-    .pipe(dest('./dist/image'));
+    .pipe(dest('./dist'));
 }
 function json() {
-  return src('./source/json/**/*.json').pipe(dest('./dist/json'));
+  return src('./source/*/json/**/*.json').pipe(dest('./dist'));
 }
-function vendorJS() {
-  return src('./node_modules/jquery/dist/jquery.js')
-    .pipe($.if(process.env.NODE_ENV === 'production', $.uglify()))
-    .pipe(dest('./dist/js'));
-}
+// function vendorJS() {
+//   return src('./node_modules/jquery/dist/jquery.js')
+//     .pipe($.if(process.env.NODE_ENV === 'production', $.uglify()))
+//     .pipe(dest('./dist/js'));
+// }
 
 //監聽檔案變更(監聽路徑, 任務名稱)
 function watchFiles() {
@@ -153,7 +164,7 @@ function deploy() {
   return src('./dist/**/*').pipe($.ghPages());
 }
 
-exports.build = series(clean, pug, compileSass, babel, image, vendorJS, json); //導出專案
+exports.build = series(clean, pug, compileSass, babel, image, json); //導出專案
 exports.buildData = series(image, json); //導出資料(方便編輯資料)
 exports.deploy = deploy; //自動部署至Github page
 exports.default = parallel(clean, pug, compileSass, babel, image, json, serve, watchFiles); //開發時執行任務
