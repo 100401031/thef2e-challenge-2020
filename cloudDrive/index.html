@@ -25,7 +25,7 @@
 <meta property="og:type" content="website">
     <title>Cloud Drive - 前端修練精神時光屋2nd Week 8</title>
     <link rel="stylesheet" href="./css/normalize.css">
-    <link rel="shortcut icon" href="./image/cloudDrive/favicon/cloud.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="./image/favicon/cloud.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="./css/cloudDrive.css">
@@ -250,7 +250,7 @@
           </div>
           <div class="user_section">
             <div class="user_pic">
-              <div class="img_wrapper"><img src="./image/cloudDrive/user.jpg"></div>
+              <div class="img_wrapper"><img src="./image/user.jpg"></div>
             </div>
             <div class="user_info">
               <div class="user_name">Jennifer</div>
@@ -311,7 +311,7 @@
                 </thead>
                 <tbody>
                   <tr class="body_row file_row" v-for="(item,key) in displayFileList" :key="key" @dblclick="handleListItemDblClick(item)" :class="{draggedBy:item==dragoverItem,isDragging:item==isDraggingItem,doc_type:item.fileType!='folder',folder_type:item.fileType=='folder',file_contextmenu:currentFolder.editable}" @dragover.prevent="item.fileType=='folder'?dragOver(item):false" @dragleave.prevent="dragLeave" @drop.stop.prevent="item.fileType=='folder'?drop($event,item):false" draggable="true" @contextmenu.prevent="fileContextMenu(item)" @dragstart="dragStart($event,item)" @dragend="dragEnd($event,item)" :draggable="currentFolder.editable">
-                    <td class="body_col"><span class="type_icon"><img :src="`./image/cloudDrive/file_type_icon/${item.fileType}_icon.png`" draggable="false"></span><span>{{item.name}}</span><span class="star" @click="addStar(item)"><i class="fas fa-star" v-if="item.isStar"></i><i class="far fa-star" v-else></i></span></td>
+                    <td class="body_col"><span class="type_icon"><img :src="`./image/file_type_icon/${item.fileType}_icon.png`" draggable="false"></span><span>{{item.name}}</span><span class="star" @click="addStar(item)"><i class="fas fa-star" v-if="item.isStar"></i><i class="far fa-star" v-else></i></span></td>
                     <td class="body_col"><span>{{item.modifiedTime|timeFormat}}</span></td>
                     <td class="body_col"><span>{{item.size|sizeFormat}}</span></td>
                     <td class="body_col"><span>{{item.ownerId}}</span></td>
