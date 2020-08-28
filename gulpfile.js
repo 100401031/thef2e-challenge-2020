@@ -149,16 +149,16 @@ function json() {
 //監聽檔案變更(監聽路徑, 任務名稱)
 function watchFiles() {
   //檔案變更時自動執行任務
-  watch('./source/**/*.pug', pug);
-  watch('./source/scss/**/*.scss', compileSass);
-  watch('./source/js/**/*.js', webpackBabel);
-  watch('./source/image/**/*.{png,gif,jpg,svg}', image);
-  watch('./source/json/**/*.json', json);
+  watch('./source/*/**/*.pug', pug);
+  watch('./source/*/scss/*.scss', compileSass);
+  watch('./source/*/js/**/*.js', webpackBabel);
+  watch('./source/*/image/**/*.{png,gif,jpg,svg}', image);
+  watch('./source/*/json/**/*.json', json);
 
   //檔案變更時自動重整測試sever
-  watch('dist/*.html').on('change', browserSync.reload);
-  watch('dist/css/*.css').on('change', browserSync.reload);
-  watch('dist/js/*.js').on('change', browserSync.reload);
+  watch('dist/*/*.html').on('change', browserSync.reload);
+  watch('dist/*/css/*.css').on('change', browserSync.reload);
+  watch('dist/*/js/*.js').on('change', browserSync.reload);
 }
 function deploy() {
   return src('./dist/**/*').pipe($.ghPages());
