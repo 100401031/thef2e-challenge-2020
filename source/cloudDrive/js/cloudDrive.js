@@ -162,11 +162,10 @@ vm = new Vue({
   },
   methods: {
     searchFile(folder, searchInput) {
-      const result = [];
-      const filter = folder.fileList.filter(item => item.name.includes(searchInput));
-      filter.forEach(item => {
-        result.push(item);
-      });
+      const filter = folder.fileList.filter(item =>
+        item.name.toLowerCase().includes(searchInput.toLowerCase())
+      );
+      const result = [...filter];
       const childrenFolder = folder.fileList.filter(item => item.fileType == 'folder');
       //是否有下一層
       if (childrenFolder.length > 0) {
@@ -180,11 +179,8 @@ vm = new Vue({
       return result;
     },
     filterStarFile(folder) {
-      const result = [];
       const filter = folder.fileList.filter(item => item.isStar === true);
-      filter.forEach(item => {
-        result.push(item);
-      });
+      const result = [...filter];
       const childrenFolder = folder.fileList.filter(item => item.fileType == 'folder');
       //是否有下一層
       if (childrenFolder.length > 0) {
@@ -464,6 +460,8 @@ vm = new Vue({
       }
     },
     starPage() {
+      const starFile = this.filterStarFile(this.dataStorage.rootFolder);
+      this.dataStorage.star.fileList = starFile;
       this.currentFolder = this.dataStorage.star;
     },
     saveToLocalStorage() {
