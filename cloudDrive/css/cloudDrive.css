@@ -231,7 +231,7 @@ button {
   display: grid;
   grid-template-rows: 81px auto;
   overflow: auto;
-  background-image: url("../image/cloudDrive/cloud_background.png");
+  background-image: url("../image/cloud_background.png");
   background-repeat: no-repeat;
   background-position: calc(100% + 90px) calc(100% + 140px); }
   .main_page .navbar {
