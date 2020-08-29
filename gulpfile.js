@@ -21,7 +21,7 @@ function serve() {
 //設定已完成不用編譯的子專案
 const buildAll = false; //是否要全部重新編譯
 //設定要忽略專案
-const ignoreProject = buildAll ? [] : ['cloudDrive', 'musicPlayer'];
+const ignoreProject = buildAll ? [] : ['musicPlayer'];
 const ignore = (src, template) => {
   if (!ignoreProject) return;
   ignoreProject.forEach(item => {
@@ -178,7 +178,7 @@ function watchFiles() {
   //檔案變更時自動執行任務
   watch('./source/*/**/*.pug', pug);
   watch('./source/*/scss/*.scss', compileSass);
-  watch('./source/*/js/**/*.js', webpackBabel);
+  watch('./source/*/js/**/*.js', babel);
   watch('./source/*/image/**/*.{png,gif,jpg,svg}', image);
   watch('./source/*/json/**/*.json', json);
 
