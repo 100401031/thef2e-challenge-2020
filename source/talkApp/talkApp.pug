@@ -1,0 +1,59 @@
+extends ../layout/layout.pug
+block socialMeta
+  <!-- Search Engine -->
+  <meta name="description" content="Talk App">
+  <meta name="image" content="">
+  <!-- Schema.org for Google -->
+  <meta itemprop="name" content="Talk App">
+  <meta itemprop="description" content="Talk App">
+  <meta itemprop="image" content="">
+  <!-- Open Graph general (Facebook, Pinterest & Google+) -->
+  <meta property="og:title" content="Talk App">
+  <meta property="og:description" content="Talk App">
+  <meta property="og:site_name" content="Talk App">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:type" content="website">
+block css
+  link(rel="shortcut icon", href="./image/favicon/favicon.ico", type="image/x-icon")
+  link(rel="stylesheet", href="./css/talkApp.css")
+  link(rel="stylesheet", href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css")
+block pageTitle
+  title Talk App
+
+block content
+  #app
+    .main_container
+      .sidebar
+        div.section_title Channel
+        ul.group_list
+          li(v-for="(item,index) in groups" :key="item.id" :class="{active:item.id==currentGroup.id}" @click="currentGroup=item") {{index+1}}. {{item.title}}
+      .main_page
+        .message_container
+          .message_block(v-for="(item,index) in messages" :key="item.index")
+            .message_wrapper
+              .user_name William
+              .text {{item.text}}
+              .audio_wrapper
+                audio(:src="item.audioUrl" controls="true"  controlsList="nodownload" v-if="item.audioUrl" :autoplay="Date.now()-item.timestamp<1000")
+                span.timestamp {{item.timestamp|timeFormat}}
+        .input_container
+          .input_wrapper
+            textarea(type="text" v-model="tempMsg.text" :disabled="msgRecognizing")
+            .audio_wrapper( v-if="tempMsg.audioUrl&&!msgRecognizing")
+              audio(:src="tempMsg.audioUrl" controls="true"  controlsList="nodownload")
+          .btn_wrapper
+            button.send_btn(@click="sendMsg" :disabled="msgRecording") 
+              div Send
+              span.auto_send(@click.stop)
+                input(type="checkbox" v-model="autoSend" id="autoSend" name="autoSend" value="false" @click.stop)
+                label(for="autoSend"  @click.stop) auto
+            button.record_btn(@click="inputRecognition" :disabled="msgRecognizing" :class="{recording:msgRecording}")
+              i(class="fas fa-microphone")
+
+block script
+  if env === 'develop'
+    script(src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js")
+  else
+    script(src="https://cdn.jsdelivr.net/npm/vue@2.6.11")
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js")
+  script(src="./js/talkApp.js")
