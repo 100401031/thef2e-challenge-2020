@@ -59,6 +59,12 @@ audio {
         .message_container .message_block .message_wrapper .audio_wrapper audio {
           width: 100%;
           min-width: 256px; }
+      .message_container .message_block .message_wrapper .timestamp {
+        font-size: 8px;
+        color: #81898c;
+        position: absolute;
+        bottom: -14px;
+        right: 0; }
       .message_container .message_block .message_wrapper::before {
         width: 0;
         height: 0;
@@ -112,14 +118,17 @@ audio {
       height: 100%;
       border: none;
       outline: none;
-      border-radius: 4px; }
-    .input_container .btn_wrapper .record_btn {
-      color: #fff;
-      background-color: #46555a;
-      font-size: 32px;
+      border-radius: 4px;
+      cursor: pointer;
       -webkit-transition: all 0.25s ease;
       -o-transition: all 0.25s ease;
       transition: all 0.25s ease; }
+    .input_container .btn_wrapper .record_btn {
+      color: #fff;
+      background-color: #46555a;
+      font-size: 32px; }
+      .input_container .btn_wrapper .record_btn:hover {
+        background-color: rgba(70, 85, 90, 0.95); }
       .input_container .btn_wrapper .record_btn.recording {
         color: #ffa7a7; }
         .input_container .btn_wrapper .record_btn.recording i {
@@ -131,6 +140,8 @@ audio {
       background-color: transparent;
       font-size: 24px;
       border: 1px solid #46555a; }
+      .input_container .btn_wrapper .send_btn:hover {
+        background-color: rgba(70, 85, 90, 0.05); }
       .input_container .btn_wrapper .send_btn .auto_send {
         font-size: 14px;
         display: -webkit-box;

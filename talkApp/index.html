@@ -45,7 +45,7 @@
                 <div class="user_name">William</div>
                 <div class="text">{{item.text}}</div>
                 <div class="audio_wrapper">
-                  <audio :src="item.audioUrl" controls="true" controlsList="nodownload" v-if="item.audioUrl" :autoplay="Date.now()-item.sentTime&lt;1000"></audio>
+                  <audio :src="item.audioUrl" controls="true" controlsList="nodownload" v-if="item.audioUrl" :autoplay="Date.now()-item.timestamp&lt;1000"></audio><span class="timestamp">{{item.timestamp|timeFormat}}</span>
                 </div>
               </div>
             </div>
