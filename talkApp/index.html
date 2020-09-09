@@ -37,6 +37,13 @@
           <ul class="group_list">
             <li v-for="(item,index) in groups" :key="item.id" :class="{active:item.id==currentGroup.id}" @click="currentGroup=item">{{index+1}}. {{item.title}}</li>
           </ul>
+          <div class="lang_block">
+            <label for="inputLang">Language</label>
+            <select id="lang" name="lang" v-model="inputLang">
+              <option value="en-US">English</option>
+              <option value="cmn-Hant-TW">正體中文(臺灣)</option>
+            </select>
+          </div>
         </div>
         <div class="main_page">
           <div class="message_container">

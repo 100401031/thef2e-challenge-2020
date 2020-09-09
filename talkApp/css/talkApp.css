@@ -18,6 +18,8 @@ audio {
   height: 100%;
   grid-template-columns: 256px auto; }
   .main_container .sidebar {
+    display: grid;
+    grid-auto-rows: 40px auto 40px;
     padding: 12px;
     border-right: 1px solid rgba(70, 85, 90, 0.25); }
   .main_container .main_page {
