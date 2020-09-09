@@ -2,6 +2,7 @@ var vm;
 vm = new Vue({
   el: '#app',
   data: {
+    inputLang: 'en-US',
     currentGroup: {},
     msgRecognizing: false,
     msgRecording: false,
@@ -70,7 +71,7 @@ vm = new Vue({
       const recognition = new SpeechRecognition();
       recognition.continuous = true; // 連續辨識
       recognition.interimResults = true; // 是否要輸出中間結果
-      recognition.lang = 'en-US';
+      recognition.lang = this.inputLang;
       //錄音初始設定
       const record = this.recordFn();
       // 開始辨識及錄音

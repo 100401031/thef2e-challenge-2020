@@ -23,6 +23,8 @@ audio {
   grid-template-columns: 256px auto;
 
   .sidebar {
+    display: grid;
+    grid-auto-rows: 40px auto 40px;
     padding: 12px;
     border-right: 1px solid rgba($color: $primary, $alpha: 0.25);
   }
