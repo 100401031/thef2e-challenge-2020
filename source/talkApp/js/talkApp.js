@@ -8,26 +8,26 @@ vm = new Vue({
     msgRecording: false,
     autoSend: false,
     tempMsg: {
-      text: null,
+      text: '',
       audioBlob: null,
       audioUrl: null,
-      audioDuration: null
+      audioDuration: null,
     },
     groups: [
       { id: '#1', title: '101 Airborne Division', messages: [] },
-      { id: '#2', title: 'Easy Company', messages: [] }
-    ]
+      { id: '#2', title: 'Easy Company', messages: [] },
+    ],
   },
   watch: {
     currentGroup() {
       const audio = new Audio('./sound/channel.mp3');
       audio.play();
-    }
+    },
   },
   computed: {
     messages() {
       return this.currentGroup.messages.reverse();
-    }
+    },
   },
   methods: {
     recordFn() {
@@ -35,31 +35,33 @@ vm = new Vue({
         mediaRecorder: null,
         start: function () {
           vm.msgRecording = true;
-          navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-            this.mediaRecorder = new MediaRecorder(stream);
-            this.mediaRecorder.start();
-            const startTime = Date.now();
-            const audioChunks = [];
-            this.mediaRecorder.addEventListener('dataavailable', event => {
-              audioChunks.push(event.data);
+          navigator.mediaDevices
+            .getUserMedia({ audio: true })
+            .then((stream) => {
+              this.mediaRecorder = new MediaRecorder(stream);
+              this.mediaRecorder.start();
+              const startTime = Date.now();
+              const audioChunks = [];
+              this.mediaRecorder.addEventListener('dataavailable', (event) => {
+                audioChunks.push(event.data);
+              });
+              this.mediaRecorder.addEventListener('stop', () => {
+                const stopTime = Date.now();
+                vm.tempMsg.audioDuration = stopTime - startTime;
+                const audioBlob = new Blob(audioChunks);
+                const audioUrl = URL.createObjectURL(audioBlob);
+                vm.tempMsg.audioBlob = audioBlob;
+                vm.tempMsg.audioUrl = audioUrl;
+                if (vm.autoSend) {
+                  vm.sendMsg();
+                }
+              });
             });
-            this.mediaRecorder.addEventListener('stop', () => {
-              const stopTime = Date.now();
-              vm.tempMsg.audioDuration = stopTime - startTime;
-              const audioBlob = new Blob(audioChunks);
-              const audioUrl = URL.createObjectURL(audioBlob);
-              vm.tempMsg.audioBlob = audioBlob;
-              vm.tempMsg.audioUrl = audioUrl;
-              if (vm.autoSend) {
-                vm.sendMsg();
-              }
-            });
-          });
         },
         end: function () {
           this.mediaRecorder.stop();
           vm.msgRecording = false;
-        }
+        },
       };
     },
     inputRecognition() {
@@ -67,7 +69,8 @@ vm = new Vue({
       //辨識初始設定
       const SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
       const SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
-      const SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
+      const SpeechRecognitionEvent =
+        SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
       const recognition = new SpeechRecognition();
       recognition.continuous = true; // 連續辨識
       recognition.interimResults = true; // 是否要輸出中間結果
@@ -108,10 +111,13 @@ vm = new Vue({
       const vm = this;
       const SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
       const SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
-      const SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
+      const SpeechRecognitionEvent =
+        SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
       const commands = ['switch to'];
       var grammar =
-        '#JSGF V1.0; grammar commands; public <commands> = ' + commands.join(' | ') + ' ;';
+        '#JSGF V1.0; grammar commands; public <commands> = ' +
+        commands.join(' | ') +
+        ' ;';
       const recognition = new SpeechRecognition();
       const speechRecognitionList = new SpeechGrammarList();
       speechRecognitionList.addFromString(grammar, 1);
@@ -135,7 +141,11 @@ vm = new Vue({
         if (!vm.msgRecognizing) {
           const last = event.results.length - 1;
           const command = event.results[last][0].transcript;
-          console.log(command.toLowerCase() + ' Confidence: ' + event.results[0][0].confidence);
+          console.log(
+            command.toLowerCase() +
+              ' Confidence: ' +
+              event.results[0][0].confidence
+          );
           if (command.toLowerCase().includes('switch to')) {
             switchGroup(command.toLowerCase());
           }
@@ -150,7 +160,9 @@ vm = new Vue({
         } else {
           const inputGroup = command.replace('switch to', '').trim();
           if (inputGroup == vm.currentGroup.title) return;
-          group = vm.groups.find(item => item.title.toLowerCase() == inputGroup);
+          group = vm.groups.find(
+            (item) => item.title.toLowerCase() == inputGroup
+          );
         }
         if (group && vm.currentGroup !== group) {
           vm.currentGroup = group;
@@ -162,12 +174,12 @@ vm = new Vue({
       msg.timestamp = Date.now();
       this.currentGroup.messages.push(msg);
       this.tempMsg = {
-        text: null,
+        text: '',
         audioBlob: null,
         audioUrl: null,
-        audioDuration: null
+        audioDuration: null,
       };
-    }
+    },
   },
   created() {
     this.currentGroup = this.groups[0];
@@ -182,9 +194,9 @@ vm = new Vue({
       let hours = '0' + date.getHours();
       let minutes = '0' + date.getMinutes();
       let seconds = '0' + date.getSeconds();
-      return `${year}-${month}-${day} ${hours.substr(-2)}:${minutes.substr(-2)}:${seconds.substr(
+      return `${year}-${month}-${day} ${hours.substr(-2)}:${minutes.substr(
         -2
-      )}`;
-    }
-  }
+      )}:${seconds.substr(-2)}`;
+    },
+  },
 });

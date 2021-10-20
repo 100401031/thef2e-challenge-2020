@@ -13,8 +13,8 @@ window.onYouTubeIframeAPIReady = function onYouTubeIframeAPIReady() {
     playerVars: { controls: 0 },
     events: {
       onReady: vm.onPlayerReady,
-      onStateChange: vm.onPlayerStateChange
-    }
+      onStateChange: vm.onPlayerStateChange,
+    },
   });
 };
 
@@ -47,7 +47,7 @@ $(function () {
       favoriteList: [],
       favoritePlaylist: {
         title: '我的最愛',
-        song: []
+        song: [],
       },
       playList: {
         // '#pl-1': {
@@ -102,7 +102,7 @@ $(function () {
         //     }
         //   ]
         // }
-      }
+      },
     },
     watch: {
       playerState(newVal) {
@@ -139,14 +139,16 @@ $(function () {
         if (newVal != oldVal) {
           this.randomPreviousSong = [];
         }
-      }
+      },
     },
     computed: {
       cdRotate() {
         return (this.isPlaying || this.isPause) && !this.isEnded;
       },
       playPercentage() {
-        return parseFloat((this.currentTime / this.durationTime).toFixed(4)) || 0;
+        return (
+          parseFloat((this.currentTime / this.durationTime).toFixed(4)) || 0
+        );
       },
       loadingPercentage() {
         return parseFloat(this.loadedFraction.toFixed(3));
@@ -156,9 +158,11 @@ $(function () {
       },
       isCurrentPlayFavorite() {
         if (this.currentSong)
-          return this.favoriteList.some(item => item.videoId == this.currentSong.videoId);
+          return this.favoriteList.some(
+            (item) => item.videoId == this.currentSong.videoId
+          );
         else return false;
-      }
+      },
     },
     methods: {
       onPlayerReady() {
@@ -191,8 +195,9 @@ $(function () {
       setCurrentSong(songObj) {
         this.currentSong = songObj;
         player.cueVideoById({
-          videoId: this.currentSong.videoId
+          videoId: this.currentSong.videoId,
         });
+
         this.currentTime = 0;
         this.durationTime = 0;
         this.loadedFraction = 0;
@@ -201,7 +206,13 @@ $(function () {
         this.setCurrentSong(songObj);
         this.setCdCoverImg(songObj.coverImgFileName);
         this.playingPlayList = this.currentPlayList;
-        player.playVideo();
+        let retryPlay = setInterval(() => {
+          if (this.playerState === 5) {
+            player.playVideo();
+            clearInterval(retryPlay);
+            retryPlay = null;
+          }
+        }, 250);
       },
       playNextSong() {
         if (this.randomMode) {
@@ -211,7 +222,9 @@ $(function () {
           return;
         }
         //抓取現在索引值，確認是否為最後一首，處理true/false不同邏輯
-        const currentIndex = this.currentPlayList.song.indexOf(this.currentSong);
+        const currentIndex = this.currentPlayList.song.indexOf(
+          this.currentSong
+        );
         const currentListLength = this.currentPlayList.song.length;
         if (currentIndex + 1 === currentListLength) {
           //若為最後一首，則播放清單第一首
@@ -228,13 +241,17 @@ $(function () {
             player.seekTo(0);
           } else {
             //播放隨機播放紀錄上一首，並從陣列中將移除
-            this.playCurrentSong(this.randomPreviousSong[preSongArrayLength - 1]);
+            this.playCurrentSong(
+              this.randomPreviousSong[preSongArrayLength - 1]
+            );
             this.randomPreviousSong.splice(-1, 1);
           }
           return;
         }
         //抓取現在索引值，確認是否為第一首，處理true/false不同邏輯，並播放下一索引歌曲
-        const currentIndex = this.currentPlayList.song.indexOf(this.currentSong);
+        const currentIndex = this.currentPlayList.song.indexOf(
+          this.currentSong
+        );
         const lastSongIndex = this.currentPlayList.song.length - 1;
         //若為第一首
         if (currentIndex === 0) {
@@ -245,7 +262,9 @@ $(function () {
         // playCurrentSong();
       },
       playRandomSong() {
-        const currentIndex = this.currentPlayList.song.indexOf(this.currentSong);
+        const currentIndex = this.currentPlayList.song.indexOf(
+          this.currentSong
+        );
         const currentListLength = this.currentPlayList.song.length;
         const randomSongIndex = () => {
           let randomIndex = Math.floor(Math.random() * currentListLength);
@@ -297,7 +316,9 @@ $(function () {
         }
       },
       addToFavorite(songObj) {
-        const alreadyInList = this.favoriteList.find(item => item.videoId == songObj.videoId);
+        const alreadyInList = this.favoriteList.find(
+          (item) => item.videoId == songObj.videoId
+        );
         if (alreadyInList) {
           const index = this.favoriteList.indexOf(alreadyInList);
           this.favoriteList.splice(index, 1);
@@ -308,8 +329,10 @@ $(function () {
         localStorage.setItem('favoriteList', favoriteListJson);
       },
       isListSongFavorite(songObj) {
-        return this.favoriteList.some(item => item.videoId == songObj.videoId);
-      }
+        return this.favoriteList.some(
+          (item) => item.videoId == songObj.videoId
+        );
+      },
     },
     filters: {
       timeFormat(time) {
@@ -317,16 +340,17 @@ $(function () {
         let min = parseInt(time / 60) || 0;
         let sec = parseInt(time) % 60 || 0;
         return `${min}:${sec > 9 ? sec : '0' + sec}`;
-      }
+      },
     },
     created() {
-      const localFavoriteList = JSON.parse(localStorage.getItem('favoriteList')) || [];
+      const localFavoriteList =
+        JSON.parse(localStorage.getItem('favoriteList')) || [];
       this.favoriteList = localFavoriteList;
       this.favoritePlaylist.song = this.favoriteList;
-      $.getJSON('./json/playlist.json', data => {
+      $.getJSON('./json/playlist.json', (data) => {
         this.playList = data;
         this.setCurrentPlaylist(Object.keys(this.playList)[0]);
       });
-    }
+    },
   });
 });

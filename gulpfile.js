@@ -1,6 +1,7 @@
 'use strict';
 const { src, dest, series, watch, parallel } = require('gulp');
 const $ = require('gulp-load-plugins')();
+var gulpif = require('gulp-if');
 const webpack = require('webpack-stream');
 var browserSync = require('browser-sync').create();
 var del = require('del');
@@ -11,20 +12,20 @@ $.sass.compiler = require('node-sass');
 function serve() {
   browserSync.init({
     server: {
-      baseDir: './dist/'
+      baseDir: './dist/',
     },
     open: false,
-    reloadDebounce: 500 //設定reload時間間隔
+    reloadDebounce: 500, //設定reload時間間隔
   });
 }
 
 //設定已完成不用編譯的子專案
-const buildAll = false; //是否要全部重新編譯
+const buildAll = true; //是否要全部重新編譯
 //設定要忽略專案
-const ignoreProject = buildAll ? [] : ['musicPlayer'];
+const ignoreProject = buildAll ? null : ['musicPlayer'];
 const ignore = (src, template) => {
   if (!ignoreProject) return;
-  ignoreProject.forEach(item => {
+  ignoreProject.forEach((item) => {
     src.push(`${template.replace('(ignoreName)', item)}`);
   });
   return src;
@@ -37,28 +38,35 @@ function clean() {
   return del(srcArray);
 }
 
+var ignoreSvgInject = function (file) {
+  return !file.path.includes('musicPlayer');
+};
+
 function pug() {
   const srcArray = ['source/*/*.pug', '!source/layout/*.pug'];
   ignore(srcArray, '!source/(ignoreName)/*.pug');
-  return src(srcArray)
-    .pipe($.plumber())
-    .pipe(
-      $.pug({
-        pretty: true,
-        data: {
-          env: process.env.NODE_ENV //將環境變數傳入pug文件，以便於於文件內判斷Vue執行環境
-        }
-      })
-    )
-    .pipe($.injectSvg({ base: '/source' }))
-    .pipe(
-      $.rename(file => {
-        file.dirname = file.basename + '/';
-        file.basename = 'index';
-      })
-    )
-    .pipe(dest('./dist/'))
-    .pipe(browserSync.stream());
+  return (
+    src(srcArray)
+      .pipe($.plumber())
+      .pipe(
+        $.pug({
+          pretty: true,
+          data: {
+            env: process.env.NODE_ENV, //將環境變數傳入pug文件，以便於於文件內判斷Vue執行環境
+          },
+        })
+      )
+      .pipe(gulpif(ignoreSvgInject, $.injectSvg({ base: '/source' })))
+      // .pipe($.injectSvg({ base: '/source' })) // TODO: don't need this for music player
+      .pipe(
+        $.rename((file) => {
+          file.dirname = file.basename + '/';
+          file.basename = 'index';
+        })
+      )
+      .pipe(dest('./dist/'))
+      .pipe(browserSync.stream())
+  );
 }
 function compileSass() {
   const srcArray = ['source/*/scss/**/*.scss'];
@@ -70,7 +78,7 @@ function compileSass() {
     .pipe($.postcss([autoprefixer()])) //PostCSS 加入前綴
     .pipe($.sourcemaps.write('./')) //建立 sourcemaps (產生.map文件)
     .pipe(
-      $.rename(file => {
+      $.rename((file) => {
         file.dirname = file.dirname.replace('scss', 'css');
       })
     )
@@ -85,7 +93,7 @@ function babel() {
     .pipe($.sourcemaps.init())
     .pipe(
       $.babel({
-        presets: ['@babel/env']
+        presets: ['@babel/env'],
       })
     )
     .pipe(
@@ -93,8 +101,8 @@ function babel() {
         process.env.NODE_ENV === 'production',
         $.uglify({
           compress: {
-            drop_console: true
-          }
+            drop_console: true,
+          },
         })
       )
     )
@@ -114,10 +122,10 @@ function webpackBabel() {
         mode: 'production',
         entry: {
           cloudDrive: './source/js/cloudDrive.js',
-          musicPlayer: './source/js/musicPlayer.js'
+          musicPlayer: './source/js/musicPlayer.js',
         },
         output: {
-          filename: '[name].js'
+          filename: '[name].js',
         },
         devtool: 'source-map',
         module: {
@@ -128,12 +136,12 @@ function webpackBabel() {
               use: {
                 loader: 'babel-loader',
                 options: {
-                  presets: ['@babel/env']
-                }
-              }
-            }
-          ]
-        }
+                  presets: ['@babel/env'],
+                },
+              },
+            },
+          ],
+        },
       })
     )
     .pipe(
@@ -141,8 +149,8 @@ function webpackBabel() {
         process.env.NODE_ENV === 'production',
         $.uglify({
           compress: {
-            drop_console: true
-          }
+            drop_console: true,
+          },
         })
       )
     )
@@ -161,6 +169,11 @@ function image() {
       )
     )
     .pipe(dest('./dist'));
+}
+function audio() {
+  const srcArray = ['./source/*/sound/**/*.mp3'];
+  ignore(srcArray, '!source/(ignoreName)/sound/**/*.mp3');
+  return src(srcArray).pipe(dest('./dist'));
 }
 function json() {
   const srcArray = ['./source/*/json/**/*.json'];
@@ -191,7 +204,17 @@ function deploy() {
   return src('./dist/**/*').pipe($.ghPages());
 }
 
-exports.build = series(clean, pug, compileSass, babel, image, json); //導出專案
+exports.build = series(clean, pug, compileSass, babel, image, audio, json); //導出專案
 exports.buildData = series(image, json); //導出資料(方便編輯資料)
 exports.deploy = deploy; //自動部署至Github page
-exports.default = parallel(clean, pug, compileSass, babel, image, json, serve, watchFiles); //開發時執行任務
+exports.default = parallel(
+  clean,
+  pug,
+  compileSass,
+  babel,
+  image,
+  audio,
+  json,
+  serve,
+  watchFiles
+); //開發時執行任務
